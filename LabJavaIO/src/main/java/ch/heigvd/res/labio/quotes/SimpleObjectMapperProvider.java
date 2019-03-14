@@ -2,9 +2,10 @@ package ch.heigvd.res.labio.quotes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import java.util.logging.Logger;
+
 import javax.ws.rs.ext.ContextResolver;
 import javax.ws.rs.ext.Provider;
+import java.util.logging.Logger;
 
 /**
  * This is a technical class, used to transform JSON payloads received in 

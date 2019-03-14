@@ -1,11 +1,12 @@
 package ch.heigvd.res.labio.quotes;
 
+import org.glassfish.jersey.jackson.JacksonFeature;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
-import org.glassfish.jersey.jackson.JacksonFeature;
 
 /**
  * This class provides a method to invoke a web service and to receive a quote.
@@ -40,6 +41,7 @@ public class QuoteClient {
     Invocation.Builder invocationBuilder = target.request();
     Response response = invocationBuilder.get();
     Quote quote = response.readEntity(Quote.class);
+
     return quote;
   }
 
