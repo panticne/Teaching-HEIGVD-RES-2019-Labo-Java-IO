@@ -20,7 +20,37 @@ public class Utils {
    * contain any line separator, then the first element is an empty string.
    */
   public static String[] getNextLine(String lines) {
-    throw new UnsupportedOperationException("The student has not implemented this method yet.");
-  }
+    String[] res = new String[2];
 
+    //On parcourt tout
+    for(int i = 0 ; i < lines.length() ; ++i){
+      //Si la ligne se termine par \r on va vérifier si il est suivi de \n afin de prendre le bon nombre de char(décaler
+      //de 1 ou de 2 char)
+      if(lines.charAt(i)=='\r'){
+        //Si en plus de \r on a \n on décale de 2 chars
+        if(i+1 < lines.length()&& lines.charAt(i+1)=='\n'){
+          res[0] = lines.substring(0,i+2);
+          res[1] = lines.substring(i+2, lines.length());
+          break;
+          //Sinon on décale que pour \r
+        }else{
+          res[0] = lines.substring(0,i+1);
+          res[1] = lines.substring(i+1, lines.length());
+          break;
+        }
+      //Si le test précédent à raté, on vérifie si il y a juste \n
+      }else if(lines.charAt(i)=='\n'){
+        res[0] = lines.substring(0, i+1);
+        res[1] = lines.substring(i+1, lines.length());
+        break;
+      //Si il n'y a rien
+      }else{
+        res[0]="";
+        res[1] = lines;
+      }
+    }
+    return res;
+  }
 }
+
+
