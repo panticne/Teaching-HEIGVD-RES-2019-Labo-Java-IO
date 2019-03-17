@@ -18,55 +18,50 @@ import java.util.logging.Logger;
  */
 public class FileNumberingFilterWriter extends FilterWriter {
 
-    private int compteur;
-    private boolean isBr;
+    private int numberLine;
+    private boolean end;
     private static final Logger LOG = Logger.getLogger(FileNumberingFilterWriter.class.getName());
 
     public FileNumberingFilterWriter(Writer out) {
         super(out);
-        isBr = false;
-        compteur = 1;
+        end = false;
+        numberLine = 1;
     }
 
     @Override
     public void write(String str, int off, int len) throws IOException {
-        if(off + len > str.length()){
-            throw new IndexOutOfBoundsException("Longueur et offset ne sont pas corrects");
-        }
         this.write(str.toCharArray(), off, len);
     }
 
     @Override
     public void write(char[] cbuf, int off, int len) throws IOException {
-        if(off + len > cbuf.length){
-            throw new IndexOutOfBoundsException("Longueur et offset ne sont pas corrects");
-        }
         for (int i = 0; i < len; ++i) {
             write(cbuf[off + i]);
         }
     }
 
+    //Help by Samuel Mettler
     @Override
     public void write(int c) throws IOException {
 
         char br = '\r';
         char bn = '\n';
 
-        if (compteur == 1) {  //premiere ecriture
-            super.write(String.valueOf(compteur++) + '\t');
+        if (numberLine == 1) {
+            super.write(String.valueOf(numberLine++) + '\t');
             super.write(c);
         } else if ((char) c == bn) {
-            isBr = false;
+            end = false;
             super.write(c);
-            super.write( String.valueOf(compteur++) + '\t');
+            super.write( String.valueOf(numberLine++) + '\t');
 
         } else if ((char) c == br) {
-            isBr = true;
+            end = true;
             super.write(c);
         } else {
-            if (isBr) {
-                isBr = false;
-                super.write(String.valueOf(compteur++) + '\t');
+            if (end) {
+                end = false;
+                super.write(String.valueOf(numberLine++) + '\t');
             }
             super.write(c);
         }
